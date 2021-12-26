@@ -6,36 +6,29 @@ if (inputs == null || !inputs.Any())
     return;
 }
 
-var chunks = new int[inputs.Length];
+int hp = 0;
+int depth = 0;
+int aim = 0;
 
-for (int i = 0; i < chunks.Length; i++)
+for (int i = 0; i < inputs.Length; i++)
 {
-    if (i + 1 >= inputs.Length || i + 2 >= inputs.Length)
-    {
-        break;
-    }
-
-    chunks[i] = int.Parse(inputs[i]) + int.Parse(inputs[i + 1]) + int.Parse(inputs[i + 2]);
+	string[] line = inputs[i].Split(' ');
+	int v = int.Parse(line[1]);
+	switch (line[0])
+	{
+		case "forward":
+			hp += v;
+			depth += aim * v;
+			break;
+		case "up":
+			aim -= v;
+			break;
+		case "down":
+			aim += v;
+			break;
+	}
 }
 
-int count = 0;
-int previous = 0;
-
-for (int i = 0; i < chunks.Length; i++)
-{
-    int v = chunks[i];
-
-    if (v == 0)
-    {
-        break;
-    }
-
-    if (previous > 0 && v > previous)
-        count++;
-
-    previous = v;
-}
-
-Console.WriteLine(count);
+Console.WriteLine(hp * depth);
 Console.WriteLine("Finished");
 Console.ReadKey();
